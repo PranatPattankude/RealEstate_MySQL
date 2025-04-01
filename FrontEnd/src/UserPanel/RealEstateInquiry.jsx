@@ -16,10 +16,7 @@ const RealEstateInquiry = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (!token) {
-      alert("User is not Authenticated !!");
-      return;
-    }
+   
 
     async function fetchUser() {
       try {
@@ -46,7 +43,10 @@ const RealEstateInquiry = () => {
   }
   async function handleInquiry(e) {
     e.preventDefault();
-
+    if (!token) {
+      alert("User is not Authenticated !!");
+      return;
+    }
     if (!inq_type || !name || !email || !msg) {
       alert("Please fill in all required fields.");
       return;

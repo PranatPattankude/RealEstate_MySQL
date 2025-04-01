@@ -28,14 +28,55 @@ const propertyService = {
       throw error;
     }
   },
-  filterProperty :  async (type) => {
+  filterProperty: async (type) => {
     try {
       const response = await axios.get(
-        `http://localhost:7000/property/filterProperty`,{
-          params :{type}
+        `http://localhost:7000/property/filterProperty`,
+        {
+          params: { type },
         }
       );
-      console.log("response.data of filteredProperty Detail services", response.data.filteredProperty);
+      console.log(
+        "response.data of filteredProperty Detail services",
+        response.data.filteredProperty
+      );
+      return response.data.filteredProperty;
+    } catch (error) {
+      console.log("Login Failed ", error);
+      throw error;
+    }
+  },
+  CountOfProperty: async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:7000/property/CountOfProperty`
+      );
+      console.log(
+        "CountOfProperties from PropertyServices",
+        response.data.ProductCount.TotalProperty
+      );
+      return response.data.ProductCount.TotalProperty;
+    } catch (error) {
+      console.log(" Failed to get Data", error);
+      throw error;
+    }
+  },
+
+  filterPropertyByStatus: async (status) => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const response = await axios.get(
+        `http://localhost:7000/property/filterPropertyByStatus`,
+        {
+          params: { status },
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log(
+        "response.data of filterPropertyByStatus Detail services",
+        response.data.filteredProperty
+      );
       return response.data.filteredProperty;
     } catch (error) {
       console.log("Login Failed ", error);

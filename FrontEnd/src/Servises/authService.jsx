@@ -32,7 +32,7 @@ const authService = {
         }
       );
       console.log(
-        "getUser info as 'response.data.user' from authService",
+        "getUser info  from authService",
         response.data.user
       );
       return response.data.user[0];
@@ -79,6 +79,103 @@ const authService = {
     } catch (error) {
       console.log("failed to get User ", error);
 
+      throw null;
+    }
+  },
+
+  getUsers:async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const response = await axios.get(
+        "http://localhost:7000/user/getUsers",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("getUsers in auth Services", response.data.users);
+      return response.data.users;
+    } catch (error) {
+      console.log("failed to get User ", error);
+
+      throw null;
+    }
+  },
+
+  getSellers:async () => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const response = await axios.get(
+        "http://localhost:7000/user/getSellers",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("getSellers in auth Services", response.data.sellers);
+      return response.data.sellers;
+    } catch (error) {
+      console.log("failed to get sellers ", error);
+
+      throw null;
+    }
+  },
+
+  userApprove: async (id) => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const response = await axios.put(
+        "http://localhost:7000/user/userApprove",
+        { id },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        
+        }
+      );
+      console.log("userApprove in auth Services", response.data.message);
+      return response.data.message;
+    } catch (error) {
+      console.log("failed to approve sellers ", error);
+      throw null;
+    }
+  },
+
+  deleteUser: async (id) => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const response = await axios.delete(
+        `http://localhost:7000/user/deleteUser/${id}`,
+       
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      console.log("deleteUser from auth Services", response.data.message);
+      return response.data.message;
+    } catch (error) {
+      console.log("failed to delete user ", error);
+      throw null;
+    }
+  },
+
+  userDenied:async (id) => {
+    const token = localStorage.getItem("token");
+    if (!token) return null;
+    try {
+      const response = await axios.put(
+        "http://localhost:7000/user/userDenied",
+        { id },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        
+        }
+      );
+      console.log("userApprove in auth Services", response.data.message);
+      return response.data.message;
+    } catch (error) {
+      console.log("failed to Denied sellers ", error);
       throw null;
     }
   },

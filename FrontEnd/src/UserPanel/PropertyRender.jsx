@@ -7,10 +7,11 @@ import propertyService from "../Servises/propertyService";
 import PropertyShowcase from "./PropertyShowcase";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
-
+import { GiTakeMyMoney } from "react-icons/gi";
 const PropertyRender = () => {
   const [property, setProperty] = useState([]);
   const [filteredProperty, setFilteredProperty] = useState([]);
+  const [propertyCount,setPropertyCount]=useState(null)
   const navigate = useNavigate();
   async function fetchProperty() {
     try {
@@ -33,13 +34,19 @@ const PropertyRender = () => {
 function  handleAllProperties(){
   navigate('/UserHome/AllProperties')
 }
-
+async function CountOfProperty(){
+  const response = await propertyService.CountOfProperty()
+  setPropertyCount(response)
+}
   useEffect(() => {
+    CountOfProperty()
     fetchProperty();
   }, []);
+console.log("propertyCount",propertyCount);
 
   const propertiesToRender = filteredProperty.length > 0 ? filteredProperty : property;
-  const displayedProperties = propertiesToRender.slice(-8);
+  const validProperties = propertiesToRender.filter(p => p.status=="approved");
+  const displayedProperties = validProperties.slice(-8);
   return (
     <>
       <Header setFilteredProperty={setFilteredProperty} />
@@ -50,6 +57,7 @@ function  handleAllProperties(){
           Enjoy the variety of 100+ different properties in the market!
         </p>
         <div className="row g-4">
+          <div className="text-end fw-bold">TotalProperty : {propertyCount }</div>
           {}
           {displayedProperties.map((p) => (
             <div className="col-md-6 col-lg-4 col-xl-3" key={p.id}>
@@ -91,10 +99,10 @@ function  handleAllProperties(){
                       <FaBed /> {p.size}
                     </span>
                     <span>
-                      <FaBath /> {p.area}
+                      <FaRulerCombined />  {p.area} sq.ft
                     </span>
                     <span>
-                      <FaRulerCombined /> {p.size}
+                    <GiTakeMyMoney />{p.price}
                     </span>
                   </div>
                   <Card.Title className="fs-6">{p.Type}</Card.Title>

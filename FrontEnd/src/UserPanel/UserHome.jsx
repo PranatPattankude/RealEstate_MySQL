@@ -8,7 +8,7 @@ import PropertyShowcase from './PropertyShowcase'
 import Footer from '../Components/Footer'
 import AllProperties from './AllProperties'
 import {Route, BrowserRouter as Router, Routes ,Navigate} from 'react-router-dom'
-import PropertyDetail from '../AdminPanel/PropertyDetail'
+import PropertyDetail from './PropertyDetail'
 import Profile from '../AdminPanel/Profile'
 // import UserInquiry from './UserInquiry'
 import RealEstateInquiry from './RealEstateInquiry'
@@ -28,6 +28,7 @@ const UserHome = () => {
           <Route path='Profile' element={<Profile/>} />
           <Route path='PropertyDetail/:prop_id' element={<PropertyDetail/>}/>
           <Route path='AllProperties' element={<AllProperties/>} />
+
         </Routes>
       </div>
       <Footer/>

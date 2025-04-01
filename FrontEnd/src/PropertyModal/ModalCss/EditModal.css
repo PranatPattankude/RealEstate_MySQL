@@ -1,0 +1,75 @@
+
+.modal-content {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 12px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.2);
+    border: none;
+  }
+  
+  .modal-header {
+    background-color: #343a40;
+    color: white;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 15px;
+  }
+  
+  .modal-title {
+    font-weight: bold;
+  }
+  
+  .modal-body {
+    padding: 20px;
+    background-color: #ffffff;
+  }
+  
+  .modal-footer {
+    background-color: #343a40;
+    color: white;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    /* padding: 15px; */
+    /* border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px; */
+  }
+  
+  /* Input Fields Styling */
+  .form-control {
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Buttons Styling */
+  .btn-primary {
+    background: linear-gradient(90deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+  }
+  
+  .btn-primary:hover {
+    background: linear-gradient(90deg, #0056b3, #003f7f);
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border: none;
+    border-radius: 8px;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+  }
+  
+  /* Image Preview */
+  .cu-imgEditModal {
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
