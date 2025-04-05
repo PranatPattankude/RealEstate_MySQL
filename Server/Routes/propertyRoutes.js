@@ -5,6 +5,7 @@ import middleware from '../middleware/Auth.js'
 import multer from '../middleware/multer.js'
 const propertyRouter = express.Router()
 
+
 // addProperty
 propertyRouter.post('/addProperty',middleware.auth,middleware.adminCheck,multer.single('prop_img'),propertyController.addProperty)
 
