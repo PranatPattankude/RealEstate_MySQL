@@ -56,7 +56,9 @@ async function getUserInfo(){
                         <Nav.Link as={Link} to="/AdminHome/Inquiry" className="text-dark">Inquiry</Nav.Link>
                         <Nav.Link as={Link} to="/AdminHome/Users" className="text-dark">Users</Nav.Link>
                         <Nav.Link as={Link} to="/AdminHome/Sellers" className="text-dark">Sellers</Nav.Link>
-                      
+                        
+                        <Nav.Link as={Link} to="/AdminHome/IntrestedProperty" className="text-dark">IntrestedProperty</Nav.Link>
+
                         <Nav.Link as={Link} to="/AdminHome/Profile" className="text-dark">{user.role}: {user.name}</Nav.Link>
                        
                         <Button variant="danger" className="d-flex align-items-center" onClick={handleLogOut} >

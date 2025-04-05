@@ -5,6 +5,7 @@ import userRouter from "./Routes/userRouter.js"
 import propertyRoutes from './Routes/propertyRoutes.js'
 import path from 'path'
 import inquiryRouter from "./Routes/inquiryRoutes.js"
+import wishlistRouter from "./Routes/wishlistRoutes.js"
 const app = express();
 
 // Middleware Connections
@@ -20,6 +21,7 @@ console.log(__dirname)
 app.use('/user', userRouter)
 app.use('/property',propertyRoutes)
 app.use('/inquiry',inquiryRouter)
+app.use('/wishlist',wishlistRouter)
 // Connection
 app.listen(7000, ()=>{
     console.log('App running in port: '+7000)

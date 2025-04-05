@@ -2,24 +2,24 @@ import db from "../Configuration/Cofig.js";
 import jwt from 'jsonwebtoken'
 
 function login(req, res) {
-    const {email,password} = req.body;
+    const { email, password } = req.body;
     const query1 = "SELECT * FROM user WHERE email = ? AND password = ?";
-    try {
-        db.query(query1, [email,password], (error, result) => {
-            if (error) throw error.message
-            console.log("result ",result[0]);
-            const payload = {id:result[0].id,role:result[0].role};
-            console.log("user data from database",payload);
-            const token = jwt.sign(payload,'batch40',{expiresIn:'1h'})
-            console.log("token :" , token);
-            
-                res.status(200).send({ success: true,token: token , message : 'Login successfull'});
-          
-        });
-    } catch (error) {
-        console.error("Server error:", error);
-        res.status(500).send({ success: false, message: "Internal server error" });
-    }
+    
+    db.query(query1, [email, password], (error, result) => {
+        if (error) {
+            console.error("Database error:", error);
+            return res.status(500).send({ success: false, message: "Internal server error" });
+        }
+
+        if (result.length === 0) {   
+            return res.status(404).send({ success: false, message: "User Not Found" });
+        }
+
+        const payload = { id: result[0].id, role: result[0].role };
+        const token = jwt.sign(payload, "batch40", { expiresIn: "1h" });
+
+        res.status(200).send({ success: true, token: token, message: "Login successful" });
+    });
 }
 
 
@@ -243,10 +243,49 @@ function deleteUser(req, res) {
 
         res.status(200).send({ success: true, message: "Seller deleted successfully" });
     });
+
+  
 }
+const verifyEmailAndPassword = (req, res) => {
+    const { email, password } = req.body;
+    const query = "SELECT * FROM user WHERE email = ? AND password = ?";
+
+    db.query(query, [email, password], (error, result) => {
+        if (error) {
+            return res.status(500).json({ success: false, message: "Server error", error: error.message });
+        }
+        if (result.length === 0) {
+            return res.status(401).json({ success: false, message: "Invalid email or password" });
+        }
+
+        res.status(200).json({ success: true, message: "Verification successful", user: result[0] });
+    });
+};
 
 
-export default {userDenied,getSellers,userApprove,getUsers,getAllUsers,updateUser,AdminPassReset, login, registration ,deleteUser,getUserInfo,addProduct};
+ const resetPassword = (req, res) => {
+    const { email, newPassword, confirmPassword } = req.body;
+
+    if (newPassword !== confirmPassword) {
+        return res.status(400).json({ success: false, message: "Passwords do not match" });
+    }
+
+    const query = "UPDATE user SET password = ? WHERE email = ?";
+
+    db.query(query, [newPassword, email], (error, result) => {
+        if (error) {
+            return res.status(500).json({ success: false, message: "Server error", error: error.message });
+        }
+        if (result.affectedRows === 0) {
+            return res.status(400).json({ success: false, message: "Password reset failed, user not found" });
+        }
+
+        res.status(200).json({ success: true, message: "Password reset successfully!" });
+    });
+};
+
+
+export default {verifyEmailAndPassword,resetPassword,userDenied,getSellers,userApprove,getUsers,getAllUsers,updateUser,AdminPassReset, login, registration ,deleteUser,getUserInfo,addProduct};
 
 
 // function allUsers(req,res){

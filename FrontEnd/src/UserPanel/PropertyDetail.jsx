@@ -60,8 +60,8 @@ const PropertyDetail = () => {
             <p className="mb-2"><strong>📐 Size:</strong> {property.size}</p>
             <p className="mb-2"><strong>💰 Price:</strong> ${property.price}</p>
             <p className="mb-2"><strong>✅ Availability:</strong> {property.avl}</p>
-            <p className="mb-2"><strong>🤠 Owner :</strong>    {users.find((user) => user.id === property.owner_id)?.name  ||
-                        "Unknown Owner"}</p>
+            {/* <p className="mb-2"><strong>🤠 Owner :</strong>    {users.find((user) => user.id === property.owner_id)?.name  ||
+                        "Unknown Owner"}</p> */}
             {/* <p className="mb-2"><strong>🏷️ Property ID:</strong> {property.prop_id}</p> */}
           </div>
         </div>

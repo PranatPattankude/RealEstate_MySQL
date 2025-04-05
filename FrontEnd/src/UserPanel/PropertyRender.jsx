@@ -8,10 +8,13 @@ import PropertyShowcase from "./PropertyShowcase";
 import Header from "./Header";
 import { useNavigate } from "react-router-dom";
 import { GiTakeMyMoney } from "react-icons/gi";
+import { FaHeart  } from "react-icons/fa";
+import axios from "axios";
 const PropertyRender = () => {
   const [property, setProperty] = useState([]);
   const [filteredProperty, setFilteredProperty] = useState([]);
-  const [propertyCount,setPropertyCount]=useState(null)
+  const [propertyCount, setPropertyCount] = useState(null);
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   async function fetchProperty() {
     try {
@@ -31,21 +34,35 @@ const PropertyRender = () => {
       console.error(`Failed to get Property Details: ${error.message}`);
     }
   };
-function  handleAllProperties(){
-  navigate('/UserHome/AllProperties')
-}
-async function CountOfProperty(){
-  const response = await propertyService.CountOfProperty()
-  setPropertyCount(response)
-}
+  function handleAllProperties() {
+    navigate("/UserHome/AllProperties");
+  }
+  async function CountOfProperty() {
+    const response = await propertyService.CountOfProperty();
+    setPropertyCount(response);
+  }
+
+  const handleAddWishList = async (prop_id) => {
+    const response = await axios.post(
+      `http://localhost:7000/wishlist/addWishListByUser`,
+      { prop_id },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    alert(response.data.message);
+  };
   useEffect(() => {
-    CountOfProperty()
+    CountOfProperty();
     fetchProperty();
   }, []);
-console.log("propertyCount",propertyCount);
+  console.log("propertyCount", propertyCount);
 
-  const propertiesToRender = filteredProperty.length > 0 ? filteredProperty : property;
-  const validProperties = propertiesToRender.filter(p => p.status=="approved");
+  const propertiesToRender =
+    filteredProperty.length > 0 ? filteredProperty : property;
+  const validProperties = propertiesToRender.filter(
+    (p) => p.status == "approved"
+  );
   const displayedProperties = validProperties.slice(-8);
   return (
     <>
@@ -57,12 +74,13 @@ console.log("propertyCount",propertyCount);
           Enjoy the variety of 100+ different properties in the market!
         </p>
         <div className="row g-4">
-          <div className="text-end fw-bold">TotalProperty : {propertyCount }</div>
+          <div className="text-end fw-bold">
+            TotalProperty : {propertyCount}
+          </div>
           {}
           {displayedProperties.map((p) => (
             <div className="col-md-6 col-lg-4 col-xl-3" key={p.id}>
               <Card
-                onClick={() => PropertyDetails(p)}
                 className="border-0 rounded-3 overflow-hidden"
                 style={{
                   transition: "0.3s",
@@ -84,6 +102,7 @@ console.log("propertyCount",propertyCount);
                     // src={p.propertyImage}
                     alt={p.type}
                     style={{ height: "180px" }}
+                    onClick={() => PropertyDetails(p)}
                   />
                   <Badge
                     className={`position-absolute top-0 bg-${
@@ -99,11 +118,20 @@ console.log("propertyCount",propertyCount);
                       <FaBed /> {p.size}
                     </span>
                     <span>
-                      <FaRulerCombined />  {p.area} sq.ft
+                      <FaRulerCombined /> {p.area} sq.ft
                     </span>
                     <span>
-                    <GiTakeMyMoney />{p.price}
+                      <GiTakeMyMoney />
+                      {p.price}
                     </span>
+                    <button
+                      onClick={() => handleAddWishList(p.prop_id)}
+                      className="btn btn-primary btn-sm p-0 text-white"
+                      style={{ height: "30px", width: "30px" }}
+                      // className={`position-absolute top-0  end-0 m-2`}
+                    >
+                      <FaHeart  />
+                    </button>
                   </div>
                   <Card.Title className="fs-6">{p.Type}</Card.Title>
                   <Card.Text className="text-muted small">
@@ -118,7 +146,16 @@ console.log("propertyCount",propertyCount);
           ))}
         </div>
       </div>
-      {propertiesToRender.length>=8 && (<div className="text-center"><button className="btn btn-success border border-rounded" onClick={handleAllProperties}>See Properties</button></div>)}
+      {propertiesToRender.length >= 8 && (
+        <div className="text-center">
+          <button
+            className="btn btn-success border border-rounded"
+            onClick={handleAllProperties}
+          >
+            See Properties
+          </button>
+        </div>
+      )}
       <PropertyShowcase />
     </>
   );

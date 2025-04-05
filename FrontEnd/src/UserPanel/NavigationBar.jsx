@@ -43,7 +43,7 @@ async function getUserInfo(){
         <Navbar expand="lg" className="bg-white shadow-sm py-3 px-4">
         <div className="container">
             {/* Logo */}
-            <Navbar.Brand as={Link} to="/AdminHome/Property" className="d-flex align-items-center fw-bold">
+            <Navbar.Brand as={Link} to="/UserHome/PropertyRender" className="d-flex align-items-center fw-bold">
                 <img src={WebsiteLogo} alt="Logo" style={{width:"60px"}} className="me-2" />
                 <span>MyEstate</span>
             </Navbar.Brand>
@@ -56,7 +56,9 @@ async function getUserInfo(){
                     <Nav.Link as={Link} to="/UserHome/RealEstateInquiry" className="text-dark">Inquiry</Nav.Link>
                   
                     <Nav.Link as={Link} to="/UserHome/Profile" className="text-dark">{user.role} : {user.name}</Nav.Link>
-                   
+                    
+                    <Nav.Link as={Link} to="/UserHome/WishList" className="text-dark">Intrested Property</Nav.Link>
+
                     <Button variant="danger" className="d-flex align-items-center" onClick={handleLogOut} >
                         LogOut 
                     </Button>

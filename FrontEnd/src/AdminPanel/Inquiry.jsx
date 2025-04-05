@@ -70,7 +70,7 @@ const Inquiry = () => {
           <th scope="col">Email</th>
           <th scope="col">Mobile No.</th>
           <th scope="col">Message</th>
-          <th scope="col">Sender</th>
+          {/* <th scope="col">Sender</th> */}
           <th scope="col">Actions</th>
         </tr>
       </thead>
@@ -84,7 +84,7 @@ const Inquiry = () => {
             <td>{inq.email} </td>
             <td>{inq.MobNo}</td>
             <td>{inq.msg}</td>
-           <td> {users.find((u) => u.id === inq.sender_id)?.name || "Unknown"}</td>
+           {/* <td> {users.find((u) => u.id === inq.sender_id)?.name || "Unknown"}</td> */}
             <td>
               <button className="btn btn-danger ms-2" onClick={()=>handleDelete(inq)}>Delete</button>
             </td>

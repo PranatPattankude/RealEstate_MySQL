@@ -179,5 +179,15 @@ const authService = {
       throw null;
     }
   },
+
+   verifyEmailAndPassword : async (email, password) => {
+    try {
+      const response = await axios.post(`http://localhost:7000/user/verify-email-password`, { email, password });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
 };
 export default authService;

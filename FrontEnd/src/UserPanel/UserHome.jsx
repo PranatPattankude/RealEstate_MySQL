@@ -12,6 +12,7 @@ import PropertyDetail from './PropertyDetail'
 import Profile from '../AdminPanel/Profile'
 // import UserInquiry from './UserInquiry'
 import RealEstateInquiry from './RealEstateInquiry'
+import WishList from './WishList'
 
 const UserHome = () => {
   return (
@@ -28,6 +29,7 @@ const UserHome = () => {
           <Route path='Profile' element={<Profile/>} />
           <Route path='PropertyDetail/:prop_id' element={<PropertyDetail/>}/>
           <Route path='AllProperties' element={<AllProperties/>} />
+          <Route path='WishList' element={<WishList/>}/>
 
         </Routes>
       </div>

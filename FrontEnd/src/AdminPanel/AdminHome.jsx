@@ -10,6 +10,7 @@ import DeleteInquiryModal from './InquiryModal/DeleteInquiryModal'
 import AddProduct from '../PropertyModal/AddProperty'
 import AdminShowUsers from './AdminShowUsers'
 import AdminShowSellers from './AdminShowSellers'
+import IntrestedProperty from './IntrestedProperty'
 
 const AdminHome = () => {
   return (
@@ -28,6 +29,7 @@ const AdminHome = () => {
           {/* <Route path='AddProduct' element={<AddProduct/>} /> */}
           <Route path='Users' element={<AdminShowUsers/>}/>
           <Route path="Sellers" element={<AdminShowSellers/>}/>
+          <Route path="IntrestedProperty" element={<IntrestedProperty/>}/>
           
         </Routes>
       </div>
