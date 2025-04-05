@@ -11,10 +11,9 @@ This project is a web-based application designed to facilitate the buying, selli
 
 ## Technologies Used
 
-- **Frontend:** :contentReference[oaicite:11]{index=11}&#8203;:contentReference[oaicite:12]{index=12}
-- **Backend:** :contentReference[oaicite:13]{index=13}&#8203;:contentReference[oaicite:14]{index=14}
-- **Database:** :contentReference[oaicite:15]{index=15}&#8203;:contentReference[oaicite:16]{index=16}
-
+- **Frontend:** :React.js,css,Bootstrap,html
+- **Backend:** :Noode.js,Express.js
+- **Database:** :MySQL
 ## Installation
 
 1. **Clone the Repository:**
