@@ -11,9 +11,9 @@ This project is a web-based application designed to facilitate the buying, selli
 
 ## Technologies Used
 
-- **Frontend:** :React.js,css,Bootstrap,html
-- **Backend:** :Noode.js,Express.js
-- **Database:** :MySQL
+- **Frontend:** React.js,css,Bootstrap,html
+- **Backend:** Noode.js,Express.js
+- **Database:** MySQL
 ## Installation
 
 1. **Clone the Repository:**
