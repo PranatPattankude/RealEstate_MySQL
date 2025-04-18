@@ -1,124 +1,275 @@
 import db from "../Configuration/Cofig.js"
-const baseURL = "http://localhost:7000"
+import uploads from "../middleware/multer.js";
+// const baseURL = "http://localhost:7000"
+const baseURL = process.env.BASE_URL;
+
+
+// addproperty-----------------------------------------------------------------------------------------------------------------
+// function addProperty(req, res) {
+//     console.log("req from body :", req.body);
+
+//     try {
+//         const { type, location, size, area, price, avl, gmap,status } = req.body;
+//         if (!type) {
+//             return res.status(400).send({ success: false, message: "type is required" });
+//         }
+
+//         const prop_img = req.file ? req.file.filename : null;
+
+//         const q1 = 'INSERT INTO property (type, location, size, area,price,  avl, gmap,status,  prop_img ) VALUES (?,?, ?, ?, ?, ?, ?, ?,?)';
+
+//         db.query(q1, [type, location, size, area, price, avl, gmap,status, prop_img], (error, result) => {
+//             if (error) throw error;
+//             res.status(200).send({ success: true, message: "Property  added successfully", addedProperty: result });
+//         });
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message });
+//     }
+// }
 
 function addProperty(req, res) {
-    console.log("req from body :", req.body);
-
     try {
-        const { type, location, size, area, price, avl, gmap,status } = req.body;
+        const { type, location, size, area, price, avl, gmap, status } = req.body;
         if (!type) {
             return res.status(400).send({ success: false, message: "type is required" });
         }
 
-        const prop_img = req.file ? req.file.filename : null;
+        const prop_img = req.file ? req.file.location : null;
 
-        const q1 = 'INSERT INTO property (type, location, size, area,price,  avl, gmap,status,  prop_img ) VALUES (?,?, ?, ?, ?, ?, ?, ?,?)';
+        const q1 = `INSERT INTO property (type, location, size, area, price, avl, gmap, status, prop_img) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`;
 
-        db.query(q1, [type, location, size, area, price, avl, gmap,status, prop_img], (error, result) => {
+        db.query(q1, [type, location, size, area, price, avl, gmap, status, prop_img], (error, result) => {
             if (error) throw error;
-            res.status(200).send({ success: true, message: "Property  added successfully", addedProperty: result });
+            res.status(200).send({ success: true, message: "Property added successfully", addedProperty: result });
         });
     } catch (error) {
         res.status(500).send({ success: false, message: error.message });
     }
 }
+
+// addPropertyByOwner-----------------------------------------------------------------------------------------------------------------
+
+
+// function addPropertyByOwner(req, res) {
+//     console.log("req from body :", req.body);
+
+//     try {
+//         const { type, location, size, area, price, avl, gmap, status, owner_id } = req.body;
+//         if (!type) {
+//             return res.status(400).send({ success: false, message: "type is required" });
+//         }
+
+//         const prop_img = req.file ? req.file.filename : null;
+
+//         const q1 = 'INSERT INTO property (type, location, size, area,price,  avl, gmap,status,  prop_img,owner_id ) VALUES (?,?, ?, ?, ?, ?, ?, ?,?,?)';
+
+//         db.query(q1, [type, location, size, area, price, avl, gmap, status, prop_img, owner_id], (error, result) => {
+//             if (error) throw error;
+//             res.status(200).send({ success: true, message: "Property  added successfully", addedProperty: result });
+//         });
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message });
+//     }
+// }
 
 function addPropertyByOwner(req, res) {
-    console.log("req from body :", req.body);
-
     try {
-        const { type, location, size, area, price, avl, gmap,status,owner_id } = req.body;
-        if (!type) {
-            return res.status(400).send({ success: false, message: "type is required" });
-        }
-
-        const prop_img = req.file ? req.file.filename : null;
-
-        const q1 = 'INSERT INTO property (type, location, size, area,price,  avl, gmap,status,  prop_img,owner_id ) VALUES (?,?, ?, ?, ?, ?, ?, ?,?,?)';
-
-        db.query(q1, [type, location, size, area, price, avl, gmap,status, prop_img,owner_id], (error, result) => {
-            if (error) throw error;
-            res.status(200).send({ success: true, message: "Property  added successfully", addedProperty: result });
-        });
+      const { type, location, size, area, price, avl, gmap, status, owner_id } = req.body;
+      if (!type) {
+        return res.status(400).send({ success: false, message: "type is required" });
+      }
+  
+      const prop_img = req.file ? req.file.location : null;
+  
+      const q1 = `INSERT INTO property (type, location, size, area, price, avl, gmap, status, prop_img, owner_id) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+  
+      db.query(q1, [type, location, size, area, price, avl, gmap, status, prop_img, owner_id], (error, result) => {
+        if (error) throw error;
+        res.status(200).send({ success: true, message: "Property added successfully", addedProperty: result });
+      });
     } catch (error) {
-        res.status(500).send({ success: false, message: error.message });
+      res.status(500).send({ success: false, message: error.message });
     }
-}
+  }
+  
+// getAllProperty-----------------------------------------------------------------------------------------------------------------
 
+// function getAllProperty(req, res) {
+//     const q2 = 'select * from property;'
+
+//     try {
+//         db.query(q2, (error, result) => {
+//             if (error) throw error
+//             if (result.affectedRows == 0) {
+//                 res.status(200).send({ success: false, message: 'No Property Found' })
+
+//             }
+
+//             const allProperties = result.map((p) => ({
+//                 ...p,
+//                 propertyImage: p.prop_img ?
+//                     `${baseURL}/uploads/${p.prop_img}`
+//                     : null
+//             }))
+//             res.status(200).send({ success: true, allProperties: allProperties })
+//         })
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message })
+
+//     }
+// }
 
 function getAllProperty(req, res) {
-    const q2 = 'select * from property;'
+    const q2 = 'SELECT * FROM property;';
 
     try {
         db.query(q2, (error, result) => {
-            if (error) throw error
-            if (result.affectedRows == 0) {
-                res.status(200).send({ success: false, message: 'No Property Found' })
+            if (error) throw error;
 
+            if (result.length === 0) {
+                return res.status(200).send({ success: false, message: 'No Property Found' });
             }
 
             const allProperties = result.map((p) => ({
                 ...p,
-                propertyImage: p.prop_img ?
-                    `${baseURL}/uploads/${p.prop_img}`
-                    : null
-            }))
-            res.status(200).send({ success: true, allProperties: allProperties })
-        })
-    } catch (error) {
-        res.status(500).send({ success: false, message: error.message })
+                propertyImage: p.prop_img ? `${baseURL}/uploads/${p.prop_img}` : null
+            }));
 
+            res.status(200).send({ success: true, allProperties });
+        });
+    } catch (error) {
+        res.status(500).send({ success: false, message: error.message });
     }
 }
 
+// deleteProperty-----------------------------------------------------------------------------------------------------------------
+
+// function deleteProperty(req, res) {
+//     const prop_id = req.params.prop_id
+//     const q3 = 'delete from property where prop_id = ?'
+//     try {
+//         db.query(q3, [prop_id], (error, result) => {
+//             if (error) throw error
+//             if (result.affectedRows == 0) {
+//                 res.status(200).send({ success: false, message: "property failed to delete" })
+//             }
+//             res.status(200).send({ success: true, message: "property deleted" })
+//         })
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message })
+
+//     }
+// }
 
 function deleteProperty(req, res) {
-    const prop_id = req.params.prop_id
-    const q3 = 'delete from property where prop_id = ?'
+    const prop_id = req.params.prop_id;
+    const q3 = 'DELETE FROM property WHERE prop_id = ?';
+
     try {
         db.query(q3, [prop_id], (error, result) => {
-            if (error) throw error
-            if (result.affectedRows == 0) {
-                res.status(200).send({ success: false, message: "property failed to delete" })
-            }
-            res.status(200).send({ success: true, message: "property deleted" })
-        })
-    } catch (error) {
-        res.status(500).send({ success: false, message: error.message })
+            if (error) throw error;
 
+            if (result.affectedRows === 0) {
+                return res.status(404).send({ success: false, message: "Property not found" });
+            }
+
+            res.status(200).send({ success: true, message: "Property deleted successfully" });
+        });
+    } catch (error) {
+        res.status(500).send({ success: false, message: error.message });
     }
 }
+
+
+// updateProperty-----------------------------------------------------------------------------------------------------------------
+
+// function updateProperty(req, res) {
+//     const { type, location, size, area, price, avl, gmap, status } = req.body;
+//     const prop_id = req.params.prop_id;
+//     const prop_img = req.file ? req.file.filename : null;
+//     let q4;
+//     let queryParams;
+//     if (prop_img) {
+//         q4 = 'UPDATE property  SET type = ?, location = ?, size = ?, area = ?, price = ?, avl = ?,gmap=?,status=?, prop_img = ?  WHERE prop_id = ?;';
+//         queryParams = [type, location, size, area, price, avl, gmap, status, prop_img, prop_id];
+
+//     } else {
+//         q4 = 'UPDATE property  SET type = ?, location = ?, size = ?, area = ?, price = ?, avl = ?,gmap=?,status=?  WHERE prop_id = ?;';
+//         queryParams = [type, location, size, area, price, avl, gmap, status, prop_id];
+
+//     }
+//     try {
+//         db.query(q4, queryParams, (error, result) => {
+//             if (error) throw error
+//             if (result.affectedRows == 0) {
+//                 res.status(200).send({ success: false, message: 'property fail to update' })
+
+//             }
+//             res.status(200).send({ success: true, message: 'property name update successfully' })
+//         })
+
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message })
+
+//     }
+// }
 
 function updateProperty(req, res) {
-    const { type, location, size, area, price, avl, gmap,status } = req.body;
+    const { type, location, size, area, price, avl, gmap, status } = req.body;
     const prop_id = req.params.prop_id;
-    const prop_img = req.file ? req.file.filename : null;
+    const prop_img = req.file ? req.file.location : null;
+  
     let q4;
     let queryParams;
+  
     if (prop_img) {
-        q4 = 'UPDATE property  SET type = ?, location = ?, size = ?, area = ?, price = ?, avl = ?,gmap=?,status=?, prop_img = ?  WHERE prop_id = ?;';
-        queryParams = [type, location, size, area, price, avl, gmap,status, prop_img, prop_id];
-
+      q4 = `UPDATE property SET type = ?, location = ?, size = ?, area = ?, price = ?, avl = ?, gmap = ?, status = ?, prop_img = ? 
+            WHERE prop_id = ?`;
+      queryParams = [type, location, size, area, price, avl, gmap, status, prop_img, prop_id];
     } else {
-        q4 = 'UPDATE property  SET type = ?, location = ?, size = ?, area = ?, price = ?, avl = ?,gmap=?,status=?  WHERE prop_id = ?;';
-        queryParams = [type, location, size, area, price, avl, gmap,status, prop_id];
-
+      q4 = `UPDATE property SET type = ?, location = ?, size = ?, area = ?, price = ?, avl = ?, gmap = ?, status = ? 
+            WHERE prop_id = ?`;
+      queryParams = [type, location, size, area, price, avl, gmap, status, prop_id];
     }
+  
     try {
-        db.query(q4, queryParams, (error, result) => {
-            if (error) throw error
-            if (result.affectedRows == 0) {
-                res.status(200).send({ success: false, message: 'property fail to update' })
-
-            }
-            res.status(200).send({ success: true, message: 'property name update successfully' })
-        })
-
+      db.query(q4, queryParams, (error, result) => {
+        if (error) throw error;
+        if (result.affectedRows === 0) {
+          return res.status(200).send({ success: false, message: 'Property failed to update' });
+        }
+        res.status(200).send({ success: true, message: 'Property updated successfully' });
+      });
     } catch (error) {
-        res.status(500).send({ success: false, message: error.message })
-
+      res.status(500).send({ success: false, message: error.message });
     }
 }
+  
+// getOneProperty-----------------------------------------------------------------------------------------------------------------
+  
+// function getOneProperty(req, res) {
+//     const prop_id = req.params.prop_id;
+//     const q5 = "SELECT * FROM property WHERE prop_id = ?";
+
+//     db.query(q5, [prop_id], (error, result) => {
+//         if (error) {
+//             return res.status(500).send({ success: false, message: error.message });
+//         }
+
+//         if (result.length === 0) {
+//             return res.status(404).send({ success: false, message: "Property Not Found" }); // Changed status to 404 for better API design
+//         }
+
+//         const Property = result.map((p) => ({
+//             ...p,
+//             propertyImage: p.prop_img ? `${baseURL}/uploads/${p.prop_img}` : null,
+//         }));
+
+//         res.status(200).send({ success: true, Property: Property[0] });
+//     });
+// }
 
 function getOneProperty(req, res) {
     const prop_id = req.params.prop_id;
@@ -130,26 +281,49 @@ function getOneProperty(req, res) {
         }
 
         if (result.length === 0) {
-            return res.status(404).send({ success: false, message: "Property Not Found" }); // Changed status to 404 for better API design
+            return res.status(404).send({ success: false, message: "Property Not Found" });
         }
 
-        const Property = result.map((p) => ({
-            ...p,
-            propertyImage: p.prop_img ? `${baseURL}/uploads/${p.prop_img}` : null,
-        }));
+        const property = {
+            ...result[0],
+            propertyImage: result[0].prop_img ? `${baseURL}/uploads/${result[0].prop_img}` : null
+        };
 
-        res.status(200).send({ success: true, Property: Property[0] });
+        res.status(200).send({ success: true, property });
     });
 }
 
+// filterProperty-----------------------------------------------------------------------------------------------------------------
+
+// function filterProperty(req, res) {
+//     const type = req.query.type;
+//     const q6 = 'SELECT * FROM property WHERE type LIKE ?;';
+//     console.log("Type of property in filterProperty:", type);
+
+//     try {
+//         db.query(q6, [`%${type}%`], (error, result) => {
+//             if (error) {
+//                 return res.status(500).send({ success: false, message: error.message });
+//             }
+
+//             if (result.length === 0) {
+//                 return res.status(200).send({ success: false, message: "Property Not Found" });
+//             }
+
+//             res.status(200).send({ success: true, filteredProperty: result });
+//         });
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message });
+//     }
+// }
 
 function filterProperty(req, res) {
     const type = req.query.type;
-    const q6 = 'SELECT * FROM property WHERE type LIKE ?;';
+    const q6 = 'SELECT * FROM property WHERE LOWER(type) LIKE ?;';
     console.log("Type of property in filterProperty:", type);
 
     try {
-        db.query(q6, [`%${type}%`], (error, result) => {
+        db.query(q6, [`%${type.toLowerCase()}%`], (error, result) => {
             if (error) {
                 return res.status(500).send({ success: false, message: error.message });
             }
@@ -165,13 +339,37 @@ function filterProperty(req, res) {
     }
 }
 
-function filterPropertyByStatus(req,res){
+// filterPropertyByStatus-----------------------------------------------------------------------------------------------------------------
+
+// function filterPropertyByStatus(req, res) {
+//     const status = req.query.status;
+//     const q18 = 'SELECT * FROM property WHERE status LIKE ?;';
+//     console.log("status of property in filterPropertyByStatus:", status);
+
+//     try {
+//         db.query(q18, [`%${status}%`], (error, result) => {
+//             if (error) {
+//                 return res.status(500).send({ success: false, message: error.message });
+//             }
+
+//             if (result.length === 0) {
+//                 return res.status(200).send({ success: false, message: "Property Not Found" });
+//             }
+
+//             res.status(200).send({ success: true, filteredProperty: result });
+//         });
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message });
+//     }
+// }
+
+function filterPropertyByStatus(req, res) {
     const status = req.query.status;
-    const q18 = 'SELECT * FROM property WHERE status LIKE ?;';
-    console.log("status of property in filterPropertyByStatus:", status);
+    const q18 = 'SELECT * FROM property WHERE LOWER(status) LIKE ?;';
+    console.log("Status in filterPropertyByStatus:", status);
 
     try {
-        db.query(q18, [`%${status}%`], (error, result) => {
+        db.query(q18, [`%${status.toLowerCase()}%`], (error, result) => {
             if (error) {
                 return res.status(500).send({ success: false, message: error.message });
             }
@@ -186,31 +384,99 @@ function filterPropertyByStatus(req,res){
         res.status(500).send({ success: false, message: error.message });
     }
 }
+
+// CountOfProperty-----------------------------------------------------------------------------------------------------------------
+
+// function CountOfProperty(req, res) {
+//     const q7 = 'select count(prop_id) as TotalProperty from property where status="approved" ;'
+//     try {
+//         db.query(q7, (error, result) => {
+//             if (error) throw error
+//             console.log("Count of Property is ", result);
+
+//             res.status(200).send({ success: true, ProductCount: result[0] })
+//         })
+//     } catch (error) {
+//         res.status(500).send({ success: false, message: error.message })
+
+//     }
+// }
+
 function CountOfProperty(req, res) {
-    const q7 = 'select count(prop_id) as TotalProperty from property where status="approved" ;'
+    const q7 = 'SELECT COUNT(prop_id) AS TotalProperty FROM property WHERE status = "approved";';
+
     try {
         db.query(q7, (error, result) => {
-            if (error) throw error
-            console.log("Count of Property is ", result);
+            if (error) throw error;
 
-            res.status(200).send({ success: true, ProductCount: result[0] })
-        })
+            res.status(200).send({ success: true, ProductCount: result[0] });
+        });
     } catch (error) {
-        res.status(500).send({ success: false, message: error.message })
-
+        res.status(500).send({ success: false, message: error.message });
     }
 }
 
+// getfilteredPropertyByModal-----------------------------------------------------------------------------------------------------------------
+
+// const getfilteredPropertyByModal = (req, res) => {
+//     const { type, location, size, area, price, avl, owner_id } = req.query;
+//     let query = "SELECT * FROM property WHERE 1=1";
+//     let queryParams = [];
+//     if (type) {
+//         query += " AND type = ?";
+//         queryParams.push(type);
+//     }
+
+//     if (size) {
+//         query += " AND size = ?";
+//         queryParams.push(size);
+//     }
+//     if (area) {
+//         query += " AND area = ?";
+//         queryParams.push(area);
+//     }
+//     if (price) {
+//         query += " AND price = ?";
+//         queryParams.push(price);
+//     }
+//     if (avl) {
+//         query += " AND avl = ?";
+//         queryParams.push(avl);
+//     }
+//     if (owner_id) {
+//         query += " AND owner_id = ?";
+//         queryParams.push(owner_id);
+//     }
+//     if (location) {
+//         query += " AND location like  ?";
+//         queryParams.push(`%${location}%`);
+//     }
+//     try {
+//         db.query(query, queryParams, (error, result) => {
+//             if (error) return res.status(500).json({ success: false, message: error.message });
+
+//             if (result.length == 0) {
+//                 return res.status(200).json({ success: false, message: 'property not found' });
+//             }
+//             res.status(200).send({ success: true, filteredProperties: result });
+
+//         });
+
+//     } catch (error) {
+//         console.error("Error fetching filtered property:", error);
+//         res.status(500).send({ success: true, message: error.message });
+//     }
+// };
 
 const getfilteredPropertyByModal = (req, res) => {
-    const { type, location, size, area, price, avl , owner_id } = req.query;
+    const { type, location, size, area, price, avl, owner_id } = req.query;
     let query = "SELECT * FROM property WHERE 1=1";
     let queryParams = [];
+
     if (type) {
         query += " AND type = ?";
         queryParams.push(type);
     }
-
     if (size) {
         query += " AND size = ?";
         queryParams.push(size);
@@ -232,28 +498,32 @@ const getfilteredPropertyByModal = (req, res) => {
         queryParams.push(owner_id);
     }
     if (location) {
-        query += " AND location like  ?";
+        query += " AND location LIKE ?";
         queryParams.push(`%${location}%`);
     }
+
     try {
         db.query(query, queryParams, (error, result) => {
             if (error) return res.status(500).json({ success: false, message: error.message });
 
-            if (result.length == 0) {
-                return res.status(200).json({ success: false, message: 'property not found' });
+            if (result.length === 0) {
+                return res.status(200).json({ success: false, message: 'Property not found' });
             }
-            res.status(200).send({ success: true, filteredProperties: result });
 
+            const withImageUrls = result.map((p) => ({
+                ...p,
+                propertyImage: p.prop_img ? `${baseURL}/uploads/${p.prop_img}` : null
+            }));
+
+            res.status(200).send({ success: true, filteredProperties: withImageUrls });
         });
-
     } catch (error) {
         console.error("Error fetching filtered property:", error);
-        res.status(500).send({ success: true, message: error.message });
+        res.status(500).send({ success: false, message: error.message });
     }
 };
 
-
-export default {filterPropertyByStatus, addProperty,addPropertyByOwner, getfilteredPropertyByModal, getAllProperty, deleteProperty, updateProperty, getOneProperty, filterProperty, CountOfProperty }
+export default { filterPropertyByStatus, addProperty, addPropertyByOwner, getfilteredPropertyByModal, getAllProperty, deleteProperty, updateProperty, getOneProperty, filterProperty, CountOfProperty }
 
 // const getProductByBrand = (req, res) => {
 //     const brand_id = req.params.brand_id;

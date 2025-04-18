@@ -1,19 +1,21 @@
-import mysql from 'mysql'
+import mysql from 'mysql';
+import dotenv from 'dotenv';
 
-const db= mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    password:"sawant@802",
-    database:"realEstate"
-})
+dotenv.config(); // Load .env variables
 
-db.connect((error)=>{
-    if(error){
-       console.log("MySQL Fail to Connect ",error)
-    }else{
-        console.log("MySQL connect Successfully")
+const db = mysql.createConnection({
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
+});
+
+db.connect((error) => {
+    if (error) {
+        console.log("MySQL failed to connect:", error);
+    } else {
+        console.log("MySQL connected successfully");
     }
-    
-})
+});
 
 export default db;

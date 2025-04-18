@@ -7,24 +7,24 @@ const propertyRouter = express.Router()
 
 
 // addProperty
-propertyRouter.post('/addProperty',middleware.auth,middleware.adminCheck,multer.single('prop_img'),propertyController.addProperty)
+propertyRouter.post('/addProperty', middleware.auth, middleware.adminCheck, multer.single('prop_img'), propertyController.addProperty)
 
-propertyRouter.post('/addPropertyByOwner',middleware.auth,middleware.sellerCheck,multer.single('prop_img'),propertyController.addPropertyByOwner)
+propertyRouter.post('/addPropertyByOwner', middleware.auth, middleware.sellerCheck, multer.single('prop_img'), propertyController.addPropertyByOwner)
 
-propertyRouter.get('/getAllProperty',propertyController.getAllProperty)
+propertyRouter.get('/getAllProperty', propertyController.getAllProperty)
 
-propertyRouter.delete('/deleteProperty/:prop_id',middleware.auth,middleware.adminCheck,propertyController.deleteProperty)
+propertyRouter.delete('/deleteProperty/:prop_id', middleware.auth, middleware.adminCheck, propertyController.deleteProperty)
 
-propertyRouter.put('/updateProperty/:prop_id',middleware.auth,middleware.adminCheck,multer.single('prop_img'),propertyController.updateProperty)
+propertyRouter.put('/updateProperty/:prop_id', middleware.auth, middleware.adminCheck, multer.single('prop_img'), propertyController.updateProperty)
 
-propertyRouter.get('/getOneProperty/:prop_id',propertyController.getOneProperty)
+propertyRouter.get('/getOneProperty/:prop_id', propertyController.getOneProperty)
 
-propertyRouter.get('/filterProperty',propertyController.filterProperty)
+propertyRouter.get('/filterProperty', propertyController.filterProperty)
 
-propertyRouter.get('/CountOfProperty',propertyController.CountOfProperty)
+propertyRouter.get('/CountOfProperty', propertyController.CountOfProperty)
 
-propertyRouter.get('/getfilteredPropertyByModal',propertyController.getfilteredPropertyByModal)
+propertyRouter.get('/getfilteredPropertyByModal', propertyController.getfilteredPropertyByModal)
 
-propertyRouter.get('/filterPropertyByStatus',middleware.auth,middleware.adminCheck,propertyController.filterPropertyByStatus)
+propertyRouter.get('/filterPropertyByStatus', middleware.auth, middleware.adminCheck, propertyController.filterPropertyByStatus)
 
 export default propertyRouter
